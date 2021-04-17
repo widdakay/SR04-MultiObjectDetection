@@ -12,6 +12,7 @@
 
 #define COMPUTER_SAMPLE_DEBUG
 
+// Sets the display mode for the onboard OLED
 //#define DISPLAY_MODE_TEXT
 #define DISPLAY_MODE_PING
 #define SCREEN_WIDTH 128
@@ -29,9 +30,9 @@ unsigned int count = 0;  // buffer position
 void setup() {
   Serial.begin(115200);
   //while (!Serial);
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64p
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
-    for (;;); // Don't proceed, loop forever
+    for (;;); // Fail if screen isn't connected
   }
   display.display();
   Serial.println("init");
@@ -76,7 +77,7 @@ void loop() {
 
   // Wait for sampling to finish
   while (count < MAXCOUNT) {
-    // The interrupt handler seems to sometimes get conufsed if this loop is empty
+    // The ADC interrupt handler seems to sometimes get conufsed if this loop is empty
     delay(1);
   }
   digitalWrite(LED_BUILTIN, HIGH);
